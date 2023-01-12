@@ -21,3 +21,4 @@ The Image will get saved to the provided `filePath`.
 - [ ] Color Customization
 - [ ] Add QR Code padding feature
 - [ ] Add Logo
+- [ ] Add Tests
