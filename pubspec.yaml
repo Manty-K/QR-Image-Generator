@@ -1,6 +1,6 @@
 name: qr_image_generator
 
-description: Generate and save QR Code Image.
+description: Generate and save QR Code Image. Just provide path and file name.
 version: 0.1.0
 
 homepage: https://github.com/Manty-K/QR-Image-Generator
