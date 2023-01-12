@@ -1,26 +1,38 @@
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr/qr.dart';
 import 'package:image/image.dart' as img;
+import 'package:path/path.dart' as p;
 
 class QRGenerator {
   late String _selectedData;
 
   late List<List<bool?>> _imageData;
 
-  late String _filename;
+  late String _outputFilePath;
 
   late int _scale;
 
-  final _initialImageName = 'mini.png';
+  late String _rootFolderPath;
+
+  final _initialImageName = 'miniQR.png';
+
+  late String _initialImagePath;
 
   Future<void> generate({
     required String data,
     required String filePath,
-    int scale = 4,
+    int scale = 5,
   }) async {
     _selectedData = data;
-    _filename = filePath;
+    _outputFilePath = filePath;
     _scale = scale;
+
+    final dir = await getTemporaryDirectory();
+    _rootFolderPath = dir.path;
+
+    _initialImagePath = p.join(_rootFolderPath, _initialImageName);
+
     await _makeImage();
   }
 
@@ -62,7 +74,7 @@ class QRGenerator {
     }
 
     final png = img.encodePng(image);
-    await File(_initialImageName).writeAsBytes(png);
+    await File(_initialImagePath).writeAsBytes(png);
   }
 
   Future _enlarge() async {
@@ -70,7 +82,7 @@ class QRGenerator {
     final cmd = img.Command()
       ..decodeImageFile(imagePath)
       ..copyResize(width: _imageData.length * _scale)
-      ..writeToFile('hello/$_filename');
+      ..writeToFile(_outputFilePath);
 
     await cmd.executeThread();
 
