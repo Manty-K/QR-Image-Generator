@@ -1,6 +1,7 @@
 library qr_image_generator;
 
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:qr/qr.dart';
 import 'package:image/image.dart' as img;
 
@@ -12,6 +13,11 @@ class QRGenerator {
   late String _outputFilePath;
 
   late int _scale;
+
+  late int _spacing;
+
+  late Color _bgColor;
+  late Color _fgColor;
 
   String get _miniPath {
     final splitted = _outputFilePath.split('/');
@@ -27,10 +33,23 @@ class QRGenerator {
     return minifiedpath;
   }
 
+  /// Generate and save QR Code
   Future<String> generate({
+    /// String data to be converted to QR Code
     required String data,
+
+    ///The image will be saved at [filePath]
     required String filePath,
     int scale = 5,
+
+    /// Size of a QR Module. Default is 1.
+    int spacing = 1,
+
+    /// Default [Colors.white]
+    Color backgroundColor = Colors.white,
+
+    /// Default [Colors.black]
+    Color foregroundColor = Colors.black,
   }) async {
     if (data.trim().isEmpty) {
       throw 'Data should not be empty';
@@ -43,6 +62,9 @@ class QRGenerator {
     _selectedData = data;
     _outputFilePath = filePath;
     _scale = scale;
+    _spacing = spacing;
+    _bgColor = backgroundColor;
+    _fgColor = foregroundColor;
 
     try {
       await _makeImage();
@@ -67,24 +89,31 @@ class QRGenerator {
   Future<void> _makeMiniImage() async {
     final data = _imageData;
 
+    final spacing = _spacing;
+
     final image = img.Image(
-      width: data.length,
-      height: data.length,
+      width: data.length + (spacing * 2),
+      height: data.length + (spacing * 2),
     );
 
+    ///Background mapping
+    for (int i = 0; i < data.length + (spacing * 2); i++) {
+      for (int j = 0; j < data.length + (spacing * 2); j++) {
+        image.setPixel(i, j, _convertMaterialColorToImageColor(_bgColor));
+      }
+    }
+
+    /// QR Code Mapping
     for (int i = 0; i < data.length; i++) {
       final row = data[i];
       for (int j = 0; j < row.length; j++) {
         final d = row[j];
 
-        /// Background Color
-        img.Color c = img.ColorRgb8(255, 255, 255);
-
         if (d) {
           /// Foreground Color
-          c = img.ColorRgb8(0, 0, 0);
+          img.Color c = _convertMaterialColorToImageColor(_fgColor);
+          image.setPixel(i + spacing, j + spacing, c);
         }
-        image.setPixel(i, j, c);
       }
     }
 
@@ -129,4 +158,8 @@ class QRGenerator {
     }
     return qrdata;
   }
+}
+
+img.Color _convertMaterialColorToImageColor(Color c) {
+  return img.ColorRgba8(c.red, c.green, c.blue, c.alpha);
 }
