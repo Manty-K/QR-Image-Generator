@@ -52,6 +52,16 @@ class QRGenerator {
     Color backgroundColor = Colors.white,
     Color foregroundColor = Colors.black,
   }) async {
+    /// Use assert statements
+
+    if (padding <= 0) {
+      throw 'Padding should be more than 0';
+    }
+
+    if (scale <= 0) {
+      throw 'Scale should be more than 0';
+    }
+
     if (data.trim().isEmpty) {
       throw 'Data should not be empty';
     }
