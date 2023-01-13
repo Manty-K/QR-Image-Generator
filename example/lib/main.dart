@@ -81,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       data: textEditingController.text,
       filePath: '$outputDir/demoQr.png',
       scale: 10,
+      padding: 2,
       foregroundColor: Colors.yellow,
       backgroundColor: Colors.blue,
     );
