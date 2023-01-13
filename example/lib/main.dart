@@ -66,6 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
       data: 'Hello World!',
       filePath: '$outputDir/hello.png',
       scale: 10,
+      foregroundColor: Colors.yellow,
+      backgroundColor: Colors.blue,
     );
   }
 }
