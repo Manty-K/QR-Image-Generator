@@ -1,3 +1,9 @@
+## 0.2.1
+
+- Background and foreground color support addded.
+- Padding Feature added.
+- Documentation added.
+
 ## 0.2.0
 
 - Flutter Example Added.
