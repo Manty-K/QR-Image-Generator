@@ -14,7 +14,7 @@ class QRGenerator {
 
   late int _scale;
 
-  late int _spacing;
+  late int _padding;
 
   late Color _bgColor;
   late Color _fgColor;
@@ -34,21 +34,22 @@ class QRGenerator {
   }
 
   /// Generate and save QR Code
+  ///
+  /// String [data] to be converted to QR Code.
+  ///
+  /// The image will be saved at [filePath].
+  ///
+  /// [padding] is size of a QR Module. Default is 1.
+  ///
+  /// [backgroundColor] color of a QR. Defaults to [Colors.white].
+  ///
+  /// [foregroundColor] of a QR. Defaults to [Colors.black].
   Future<String> generate({
-    /// String data to be converted to QR Code
     required String data,
-
-    ///The image will be saved at [filePath]
     required String filePath,
     int scale = 5,
-
-    /// Size of a QR Module. Default is 1.
-    int spacing = 1,
-
-    /// Default [Colors.white]
+    int padding = 1,
     Color backgroundColor = Colors.white,
-
-    /// Default [Colors.black]
     Color foregroundColor = Colors.black,
   }) async {
     if (data.trim().isEmpty) {
@@ -62,7 +63,7 @@ class QRGenerator {
     _selectedData = data;
     _outputFilePath = filePath;
     _scale = scale;
-    _spacing = spacing;
+    _padding = padding;
     _bgColor = backgroundColor;
     _fgColor = foregroundColor;
 
@@ -89,7 +90,7 @@ class QRGenerator {
   Future<void> _makeMiniImage() async {
     final data = _imageData;
 
-    final spacing = _spacing;
+    final spacing = _padding;
 
     final image = img.Image(
       width: data.length + (spacing * 2),
