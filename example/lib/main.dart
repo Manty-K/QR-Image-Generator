@@ -15,8 +15,9 @@ class MyApp extends StatelessWidget {
       title: 'QR Image Generator Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'QR Image Generator Demo'),
     );
   }
 }
@@ -31,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,23 +40,36 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Click to Save QR',
-            ),
-            ElevatedButton(
-              onPressed: saveQRImage,
-              child: const Text('Save'),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Enter Text',
+                  style: Theme.of(context).textTheme.displaySmall),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: textEditingController,
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 100),
+              ElevatedButton(
+                onPressed: saveQRImage,
+                child: const Text('Save QR'),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Future saveQRImage() async {
+    FocusScope.of(context).unfocus();
     String? outputDir = await FilePicker.platform.getDirectoryPath();
     if (outputDir == null) {
       return;
@@ -63,8 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final generator = QRGenerator();
 
     await generator.generate(
-      data: 'Hello World!',
-      filePath: '$outputDir/hello.png',
+      data: textEditingController.text,
+      filePath: '$outputDir/demoQr.png',
       scale: 10,
       foregroundColor: Colors.yellow,
       backgroundColor: Colors.blue,
