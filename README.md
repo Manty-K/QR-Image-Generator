@@ -1,5 +1,7 @@
 Generate and save QR Code Image.
 
+---
+
 ### Packages Used
 
 - [qr](https://pub.dev/packages/qr)
@@ -29,6 +31,8 @@ Generate and save QR Code Image.
 ```
 
 The Image will get saved to the provided `filePath`.
+
+---
 
 ### TODO
 
