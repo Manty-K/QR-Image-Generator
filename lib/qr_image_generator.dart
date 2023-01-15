@@ -29,10 +29,6 @@ class QRGenerator {
 
     final newFilename = 'temp_$filename';
 
-    // splitted.add(newFilename);
-
-    // final minifiedpath = splitted.join('/');
-
     final minifiedPath = '$_tempDirPath/$newFilename';
 
     return minifiedPath;
