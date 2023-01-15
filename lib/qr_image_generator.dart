@@ -20,6 +20,8 @@ class QRGenerator {
   late Color _bgColor;
   late Color _fgColor;
 
+  late ErrorCorrectionLevel _errorCorrectionLevel;
+
   String? _tempDirPath;
 
   String get tempFilePath {
@@ -52,6 +54,7 @@ class QRGenerator {
     int padding = 1,
     Color backgroundColor = Colors.white,
     Color foregroundColor = Colors.black,
+    ErrorCorrectionLevel errorCorrectLevel = ErrorCorrectionLevel.low,
   }) async {
     /// Use assert statements
 
@@ -77,6 +80,7 @@ class QRGenerator {
     _padding = padding;
     _bgColor = backgroundColor;
     _fgColor = foregroundColor;
+    _errorCorrectionLevel = errorCorrectLevel;
 
     if (_tempDirPath == null) {
       final tempDir = await getTemporaryDirectory();
@@ -92,7 +96,8 @@ class QRGenerator {
   }
 
   Future<void> _makeImage() async {
-    final qr = QrCode(4, QrErrorCorrectLevel.H)..addData(_selectedData);
+    final qr = QrCode(4, _errorCorrectionLevelInt(_errorCorrectionLevel))
+      ..addData(_selectedData);
 
     final qrImage = QrImage(qr);
 
@@ -179,4 +184,24 @@ class QRGenerator {
 
 img.Color _convertMaterialColorToImageColor(Color c) {
   return img.ColorRgba8(c.red, c.green, c.blue, c.alpha);
+}
+
+int _errorCorrectionLevelInt(ErrorCorrectionLevel level) {
+  switch (level) {
+    case ErrorCorrectionLevel.low:
+      return QrErrorCorrectLevel.L;
+    case ErrorCorrectionLevel.medium:
+      return QrErrorCorrectLevel.M;
+    case ErrorCorrectionLevel.quartile:
+      return QrErrorCorrectLevel.Q;
+    case ErrorCorrectionLevel.high:
+      return QrErrorCorrectLevel.H;
+  }
+}
+
+enum ErrorCorrectionLevel {
+  low,
+  medium,
+  quartile,
+  high,
 }
