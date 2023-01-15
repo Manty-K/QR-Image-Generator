@@ -6,6 +6,7 @@ Generate and save QR Code Image.
 
 - [qr](https://pub.dev/packages/qr)
 - [image](https://pub.dev/packages/image)
+- [path_provider](https://pub.dev/packages/path_provider)
 
 ## Usage
 
@@ -25,6 +26,7 @@ Generate and save QR Code Image.
       scale: 10,
       foregroundColor: Colors.yellow,
       backgroundColor: Colors.blue,
+      errorCorrectionLevel: ErrorCorrectionLevel.medium,
     );
   }
 
@@ -36,6 +38,7 @@ The Image will get saved to the provided `filePath`.
 
 ### TODO
 
+- [ ] Set QR Version
 - [ ] Write Documentation
-- [ ] Add Logo
+- [ ] Add Logo support
 - [ ] Add Tests
