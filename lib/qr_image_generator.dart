@@ -22,16 +22,16 @@ class QRGenerator {
 
   String? _tempDirPath;
 
-  String get _miniPath {
+  String get tempFilePath {
     final splitted = _outputFilePath.split('/');
 
     final filename = splitted.removeLast();
 
     final newFilename = 'temp_$filename';
 
-    final minifiedPath = '$_tempDirPath/$newFilename';
+    final filepath = '$_tempDirPath/$newFilename';
 
-    return minifiedPath;
+    return filepath;
   }
 
   /// Generate and save QR Code
@@ -135,11 +135,11 @@ class QRGenerator {
     }
 
     final png = img.encodePng(image);
-    await File(_miniPath).writeAsBytes(png);
+    await File(tempFilePath).writeAsBytes(png);
   }
 
   Future _enlarge() async {
-    final imagePath = _miniPath;
+    final imagePath = tempFilePath;
     final cmd = img.Command()
       ..decodeImageFile(imagePath)
       ..copyResize(width: _imageData.length * _scale)
@@ -151,7 +151,7 @@ class QRGenerator {
   }
 
   Future<void> _deleteMini() async {
-    await File(_miniPath).delete();
+    await File(tempFilePath).delete();
   }
 
   List<List<bool>> _getModules(QrImage image) {
