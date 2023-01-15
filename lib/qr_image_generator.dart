@@ -26,7 +26,7 @@ class QRGenerator {
 
   int? _qrVersion;
 
-  String get tempFilePath {
+  String get _tempFilePath {
     final splitted = _outputFilePath.split('/');
 
     final filename = splitted.removeLast();
@@ -162,11 +162,11 @@ class QRGenerator {
     }
 
     final png = img.encodePng(image);
-    await File(tempFilePath).writeAsBytes(png);
+    await File(_tempFilePath).writeAsBytes(png);
   }
 
   Future _enlarge() async {
-    final imagePath = tempFilePath;
+    final imagePath = _tempFilePath;
     final cmd = img.Command()
       ..decodeImageFile(imagePath)
       ..copyResize(width: _imageData.length * _scale)
@@ -178,7 +178,7 @@ class QRGenerator {
   }
 
   Future<void> _deleteMini() async {
-    await File(tempFilePath).delete();
+    await File(_tempFilePath).delete();
   }
 
   List<List<bool>> _getModules(QrImage image) {
