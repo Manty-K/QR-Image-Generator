@@ -48,7 +48,7 @@ class QRGenerator {
   ///
   /// [foregroundColor] of a QR. Defaults to [Colors.black].
   ///
-  /// Choose [errorCorrectionLevel] between low,medium,quartile and high. Defaults to [ErrorCorrectionLevel.medium]
+  /// Choose [errorCorrectionLevel] between low, medium, quartile and high. Defaults to [ErrorCorrectionLevel.medium].
   Future<String> generate({
     required String data,
     required String filePath,
