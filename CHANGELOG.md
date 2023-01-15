@@ -1,3 +1,7 @@
+## 0.2.2
+
+- Error Correction Level control added
+
 ## 0.2.1
 
 - Background and foreground color support addded.
