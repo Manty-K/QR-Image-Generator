@@ -1,5 +1,9 @@
 ## 0.2.4
 
+- Readme update
+
+## 0.2.4
+
 - Unknown Platform bug fix
 
 ## 0.2.3
