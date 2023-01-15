@@ -1,3 +1,7 @@
+## 0.2.3
+
+- Removed Flutter dependancy
+
 ## 0.2.2
 
 - Error Correction Level control added
