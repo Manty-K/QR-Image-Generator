@@ -11,9 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  file_picker: ^5.2.5
   qr_image_generator:
     path: ../
-  file_picker: ^5.2.5
 
   cupertino_icons: ^1.0.2
 
