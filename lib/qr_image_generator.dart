@@ -2,6 +2,7 @@ library qr_image_generator;
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr/qr.dart';
 import 'package:image/image.dart' as img;
 
@@ -19,18 +20,22 @@ class QRGenerator {
   late Color _bgColor;
   late Color _fgColor;
 
+  String? _tempDirPath;
+
   String get _miniPath {
     final splitted = _outputFilePath.split('/');
 
     final filename = splitted.removeLast();
 
-    final newFilename = 'minified_$filename';
+    final newFilename = 'temp_$filename';
 
-    splitted.add(newFilename);
+    // splitted.add(newFilename);
 
-    final minifiedpath = splitted.join('/');
+    // final minifiedpath = splitted.join('/');
 
-    return minifiedpath;
+    final minifiedPath = '$_tempDirPath/$newFilename';
+
+    return minifiedPath;
   }
 
   /// Generate and save QR Code
@@ -76,6 +81,11 @@ class QRGenerator {
     _padding = padding;
     _bgColor = backgroundColor;
     _fgColor = foregroundColor;
+
+    if (_tempDirPath == null) {
+      final tempDir = await getTemporaryDirectory();
+      _tempDirPath = tempDir.path;
+    }
 
     try {
       await _makeImage();
