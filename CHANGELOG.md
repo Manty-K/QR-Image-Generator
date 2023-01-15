@@ -1,3 +1,7 @@
+## 0.2.6
+
+- Analyzer issue fix
+
 ## 0.2.5
 
 - Readme update
