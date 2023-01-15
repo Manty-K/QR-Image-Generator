@@ -48,7 +48,7 @@ class QRGenerator {
   ///
   /// [foregroundColor] of a QR. Defaults to [Colors.black].
   ///
-  /// Choose [errorCorrectionLevel] between low,medium,quartile and high. Defaults to [ErrorCorrectionLevel.low]
+  /// Choose [errorCorrectionLevel] between low,medium,quartile and high. Defaults to [ErrorCorrectionLevel.medium]
   Future<String> generate({
     required String data,
     required String filePath,
@@ -56,7 +56,7 @@ class QRGenerator {
     int padding = 1,
     Color backgroundColor = Colors.white,
     Color foregroundColor = Colors.black,
-    ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.low,
+    ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.medium,
   }) async {
     /// Use assert statements
 
@@ -201,6 +201,13 @@ int _errorCorrectionLevelInt(ErrorCorrectionLevel level) {
   }
 }
 
+/// QR Code has error correction capability to restore data if the code is dirty or damaged.
+/// Four error correction levels are available for users to choose according to the operating environment.
+/// Raising this level improves error correction capability but also increases the amount of data QR Code size.
+/// To select error correction level, various factors such as the operating environment and QR Code size need to be considered.
+/// [ErrorCorrectionLevel.quartile] or [ErrorCorrectionLevel.high] may be selected for factory environment where QR Code get dirty,
+/// whereas [ErrorCorrectionLevel.low] may be selected for clean environment with the large amount of data.
+/// Typically, [ErrorCorrectionLevel.medium] (15%) is most frequently selected.
 enum ErrorCorrectionLevel {
   low,
   medium,
