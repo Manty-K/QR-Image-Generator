@@ -1,7 +1,7 @@
 library qr_image_generator;
 
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr/qr.dart';
 import 'package:image/image.dart' as img;
@@ -56,14 +56,14 @@ class QRGenerator {
     required String filePath,
     int scale = 5,
     int padding = 1,
-    Color backgroundColor = Colors.white,
-    Color foregroundColor = Colors.black,
+    Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1),
+    Color foregroundColor = const Color.fromRGBO(0, 0, 0, 1),
     ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.medium,
 
     /// Generator automatically sets version from data. But you can also explicitly set qr version [1-40];
     int? qrVersion,
   }) async {
-    /// Use assert statements
+    // ? Use assert statements
 
     if (padding <= 0) {
       throw 'Padding should be more than 0';
