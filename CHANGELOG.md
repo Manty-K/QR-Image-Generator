@@ -1,3 +1,7 @@
+## 0.2.4
+
+- Unknown Platform bug fix
+
 ## 0.2.3
 
 - Removed Flutter dependancy
