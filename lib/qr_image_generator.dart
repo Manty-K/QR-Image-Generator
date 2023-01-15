@@ -24,6 +24,8 @@ class QRGenerator {
 
   String? _tempDirPath;
 
+  int? _qrVersion;
+
   String get tempFilePath {
     final splitted = _outputFilePath.split('/');
 
@@ -57,6 +59,9 @@ class QRGenerator {
     Color backgroundColor = Colors.white,
     Color foregroundColor = Colors.black,
     ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.medium,
+
+    /// Generator automatically sets version from data. But you can also explicitly set qr version [1-40];
+    int? qrVersion,
   }) async {
     /// Use assert statements
 
@@ -76,6 +81,12 @@ class QRGenerator {
       throw 'File should end with .png';
     }
 
+    if (qrVersion != null) {
+      if (qrVersion > 40 || qrVersion < 1) {
+        throw 'QR version should be 1 - 40';
+      }
+    }
+
     _selectedData = data;
     _outputFilePath = filePath;
     _scale = scale;
@@ -83,6 +94,7 @@ class QRGenerator {
     _bgColor = backgroundColor;
     _fgColor = foregroundColor;
     _errorCorrectionLevel = errorCorrectionLevel;
+    _qrVersion = qrVersion;
 
     if (_tempDirPath == null) {
       final tempDir = await getTemporaryDirectory();
@@ -98,8 +110,16 @@ class QRGenerator {
   }
 
   Future<void> _makeImage() async {
-    final qr = QrCode(4, _errorCorrectionLevelInt(_errorCorrectionLevel))
-      ..addData(_selectedData);
+    late QrCode qr;
+
+    if (_qrVersion == null) {
+      qr = QrCode.fromData(
+          data: _selectedData,
+          errorCorrectLevel: _errorCorrectionLevelInt(_errorCorrectionLevel));
+    } else {
+      qr = QrCode(_qrVersion!, _errorCorrectionLevelInt(_errorCorrectionLevel))
+        ..addData(_selectedData);
+    }
 
     final qrImage = QrImage(qr);
 
