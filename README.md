@@ -1,5 +1,7 @@
 Generate and save QR Code Image.
 
+<img src="https://i.ibb.co/8xg3fkg/demogif.gif" alt="Package usage demo"/>
+
 ---
 
 ## Basic Usage
