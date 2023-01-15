@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: 2,
       foregroundColor: Colors.yellow,
       backgroundColor: Colors.blue,
-      errorCorrectLevel: ErrorCorrectionLevel.medium,
+      errorCorrectionLevel: ErrorCorrectionLevel.medium,
     );
   }
 }

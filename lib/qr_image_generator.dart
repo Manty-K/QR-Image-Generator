@@ -47,6 +47,8 @@ class QRGenerator {
   /// [backgroundColor] color of a QR. Defaults to [Colors.white].
   ///
   /// [foregroundColor] of a QR. Defaults to [Colors.black].
+  ///
+  /// Choose [errorCorrectionLevel] between low,medium,quartile and high. Defaults to [ErrorCorrectionLevel.low]
   Future<String> generate({
     required String data,
     required String filePath,
@@ -54,7 +56,7 @@ class QRGenerator {
     int padding = 1,
     Color backgroundColor = Colors.white,
     Color foregroundColor = Colors.black,
-    ErrorCorrectionLevel errorCorrectLevel = ErrorCorrectionLevel.low,
+    ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.low,
   }) async {
     /// Use assert statements
 
@@ -80,7 +82,7 @@ class QRGenerator {
     _padding = padding;
     _bgColor = backgroundColor;
     _fgColor = foregroundColor;
-    _errorCorrectionLevel = errorCorrectLevel;
+    _errorCorrectionLevel = errorCorrectionLevel;
 
     if (_tempDirPath == null) {
       final tempDir = await getTemporaryDirectory();
