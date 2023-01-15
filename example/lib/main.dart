@@ -70,8 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future saveQRImage() async {
     FocusScope.of(context).unfocus();
-    String? outputDir = await FilePicker.platform.getDirectoryPath();
-    if (outputDir == null) {
+    String? filePath = await FilePicker.platform.saveFile(
+      fileName: 'demoQr.png',
+      type: FileType.image,
+    );
+    if (filePath == null) {
       return;
     }
 
@@ -79,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     await generator.generate(
       data: textEditingController.text,
-      filePath: '$outputDir/demoQr.png',
+      filePath: filePath,
       scale: 10,
       padding: 2,
       foregroundColor: Colors.yellow,
