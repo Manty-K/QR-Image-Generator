@@ -1,6 +1,7 @@
 ## 0.2.2
 
 - Error Correction Level control added
+- Set QR Version from data
 
 ## 0.2.1
 

@@ -2,13 +2,20 @@ Generate and save QR Code Image.
 
 ---
 
-### Packages Used
+## Basic Usage
 
-- [qr](https://pub.dev/packages/qr)
-- [image](https://pub.dev/packages/image)
-- [path_provider](https://pub.dev/packages/path_provider)
+```dart
 
-## Usage
+    final generator = QRGenerator();
+
+    await generator.generate(
+      data: 'Hello World!',
+      filePath: '$outputDir/hello.png',
+    );
+
+```
+
+## Full Usage
 
 ```dart
 
@@ -27,6 +34,7 @@ Generate and save QR Code Image.
       foregroundColor: Colors.yellow,
       backgroundColor: Colors.blue,
       errorCorrectionLevel: ErrorCorrectionLevel.medium,
+      qrVersion: 4,
     );
   }
 
@@ -38,7 +46,6 @@ The Image will get saved to the provided `filePath`.
 
 ### TODO
 
-- [ ] Set QR Version
 - [ ] Write Documentation
 - [ ] Add Logo support
 - [ ] Add Tests
