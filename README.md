@@ -20,10 +20,6 @@ Generate and save QR Code Image.
 ```dart
 
   Future saveQRImage() async {
-    String? outputDir = await FilePicker.platform.getDirectoryPath();
-    if (outputDir == null) {
-      return;
-    }
 
     final generator = QRGenerator();
 
@@ -47,5 +43,5 @@ The Image will get saved to the provided `filePath`.
 ### TODO
 
 - [ ] Write Documentation
-- [ ] Add Logo support
+- [ ] Add Image in Qr Code
 - [ ] Add Tests
