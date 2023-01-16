@@ -44,6 +44,8 @@ The Image will get saved to the provided `filePath`.
 
 ### TODO
 
+- [ ] Add Validation
+- [ ] Add Transperency Support
 - [ ] Dart only support
 - [ ] Write Documentation
 - [ ] Add Image in Qr Code
