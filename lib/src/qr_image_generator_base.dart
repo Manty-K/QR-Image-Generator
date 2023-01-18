@@ -62,7 +62,7 @@ class QRGenerator {
     }
 
     if (!filePath.endsWith('.png')) {
-      throw 'File should end with .png';
+      throw 'Filename should end with .png';
     }
 
     if (qrVersion != null) {
