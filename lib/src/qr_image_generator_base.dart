@@ -1,14 +1,13 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
 import 'package:qr/qr.dart';
 
 class QRGenerator {
   late String _selectedData;
 
-  late List<List<bool>> _imageData;
+  late final List<List<bool>> _imageData;
 
   late String _outputFilePath;
 
@@ -21,21 +20,7 @@ class QRGenerator {
 
   late ErrorCorrectionLevel _errorCorrectionLevel;
 
-  String? _tempDirPath;
-
   int? _qrVersion;
-
-  String get _tempFilePath {
-    final splitted = _outputFilePath.split('/');
-
-    final filename = splitted.removeLast();
-
-    final newFilename = 'temp_$filename';
-
-    final filepath = '$_tempDirPath/$newFilename';
-
-    return filepath;
-  }
 
   /// Generate and save QR Code
   ///
@@ -64,8 +49,8 @@ class QRGenerator {
   }) async {
     // ? Use assert statements
 
-    if (padding <= 0) {
-      throw 'Padding should be more than 0';
+    if (padding < 0) {
+      throw 'Padding should not be negative';
     }
 
     if (scale <= 0) {
@@ -95,11 +80,6 @@ class QRGenerator {
     _errorCorrectionLevel = errorCorrectionLevel;
     _qrVersion = qrVersion;
 
-    if (_tempDirPath == null) {
-      final tempDir = await getTemporaryDirectory();
-      _tempDirPath = tempDir.path;
-    }
-
     try {
       await _makeImage();
       return filePath;
@@ -124,60 +104,67 @@ class QRGenerator {
 
     _imageData = _getModules(qrImage);
 
-    await _makeMiniImage();
-
-    await _enlarge();
+    _make();
   }
 
-  Future<void> _makeMiniImage() async {
-    final data = _imageData;
-
-    final spacing = _padding;
+  Future _make() async {
+    /// Define Image
+    final size = (_imageData.length * _scale) + (_padding * _scale * 2);
 
     final image = img.Image(
-      width: data.length + (spacing * 2),
-      height: data.length + (spacing * 2),
+      width: size,
+      height: size,
     );
 
-    ///Background mapping
-    for (int i = 0; i < data.length + (spacing * 2); i++) {
-      for (int j = 0; j < data.length + (spacing * 2); j++) {
-        image.setPixel(i, j, _convertMaterialColorToImageColor(_bgColor));
-      }
-    }
+    // added padding
+    final imageDataWithPadding = _addPadding();
 
-    /// QR Code Mapping
-    for (int i = 0; i < data.length; i++) {
-      final row = data[i];
-      for (int j = 0; j < row.length; j++) {
+    /// scale data
+    final enlargedData = _MarticScaler<bool>()
+        .scale(data: imageDataWithPadding, scaleFactor: _scale);
+
+    for (int i = 0; i < enlargedData.length; i++) {
+      final row = enlargedData[i];
+
+      for (int j = 0; j < enlargedData.length; j++) {
         final d = row[j];
 
         if (d) {
-          /// Foreground Color
           img.Color c = _convertMaterialColorToImageColor(_fgColor);
-          image.setPixel(i + spacing, j + spacing, c);
+
+          image.setPixel(i, j, c);
+        } else {
+          image.setPixel(i, j, _convertMaterialColorToImageColor(_bgColor));
         }
       }
     }
-
     final png = img.encodePng(image);
-    await File(_tempFilePath).writeAsBytes(png);
+    await File(_outputFilePath).writeAsBytes(png);
   }
 
-  Future _enlarge() async {
-    final imagePath = _tempFilePath;
-    final cmd = img.Command()
-      ..decodeImageFile(imagePath)
-      ..copyResize(width: _imageData.length * _scale)
-      ..writeToFile(_outputFilePath);
+  List<List<bool>> _addPadding() {
+    List<List<bool>> out = [];
 
-    await cmd.executeThread();
+    for (int i = 0; i < _padding; i++) {
+      final l = List.generate(_imageData.length + (_padding * 2), (_) => false);
+      out.add(l);
+    }
 
-    _deleteMini();
-  }
+    for (final x in _imageData) {
+      List<bool> myList = x;
+      for (int i = 0; i < _padding; i++) {
+        myList = [false, ...myList, false];
+      }
 
-  Future<void> _deleteMini() async {
-    await File(_tempFilePath).delete();
+      out.add(myList);
+    }
+
+    for (int i = 0; i < _padding; i++) {
+      final l = List.generate(_imageData.length + (_padding * 2), (_) => false);
+      out.add(l);
+    }
+
+    return out;
   }
 
   List<List<bool>> _getModules(QrImage image) {
@@ -199,6 +186,7 @@ class QRGenerator {
         }
       }
     }
+
     return qrdata;
   }
 }
@@ -232,4 +220,59 @@ enum ErrorCorrectionLevel {
   medium,
   quartile,
   high,
+}
+
+class _MarticScaler<T> {
+  List<List<T>> scale({required List<List<T>> data, required int scaleFactor}) {
+    _setInitialData(data, scaleFactor);
+    _iterateOverRows();
+
+    return output;
+  }
+
+  void _setInitialData(List<List<T>> data, int scale) {
+    _initialData = data;
+    _moduleCount = data.length;
+    _scale = scale;
+  }
+
+  late List<List<T>> _initialData;
+
+  late int _scale;
+
+  late int _moduleCount;
+
+  List<List<T>> output = [];
+
+  void _iterateOverRows() {
+    for (int i = 0; i < _moduleCount; i++) {
+      final lis = _initialData[i];
+
+      _fillRows(lis);
+    }
+  }
+
+  void _fillRows(List list) {
+    final List<List<T>> elementScaled = [];
+
+    // Fill empty
+    for (int s = 0; s < _scale; s++) {
+      elementScaled.add([]);
+    }
+
+    // Fill row
+    for (int i = 0; i < _scale; i++) {
+      for (int j = 0; j < list.length; j++) {
+        final k = List.generate(_scale, (_) => list[j]);
+        for (final e in k) {
+          elementScaled[i].add(e);
+        }
+      }
+    }
+
+    // Add row to output
+    for (final element in elementScaled) {
+      output.add(element);
+    }
+  }
 }

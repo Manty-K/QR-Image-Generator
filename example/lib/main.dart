@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       data: textEditingController.text,
       filePath: filePath,
       scale: 10,
-      padding: 2,
+      padding: 0,
       foregroundColor: Colors.yellow,
       backgroundColor: Colors.blue,
       errorCorrectionLevel: ErrorCorrectionLevel.medium,
