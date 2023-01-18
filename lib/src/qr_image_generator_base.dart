@@ -23,28 +23,29 @@ class QRGenerator {
   int? _qrVersion;
 
   /// Generate and save QR Code
-  ///
-  /// String [data] to be converted to QR Code.
-  ///
-  /// The image will be saved at [filePath].
-  ///
-  /// [padding] is size of a QR Module. Default is 1.
-  ///
-  /// [backgroundColor] color of a QR. Defaults to [Colors.white].
-  ///
-  /// [foregroundColor] of a QR. Defaults to [Colors.black].
-  ///
-  /// Choose [errorCorrectionLevel] between low, medium, quartile and high. Defaults to [ErrorCorrectionLevel.medium].
   Future<String> generate({
+    /// String [data] to be converted to QR Code.
     required String data,
+
+    /// The image will be saved at [filePath].
     required String filePath,
+
+    /// Scale factor of QR Code. Default is 5.
     int scale = 5,
+
+    /// [padding] factor around QR Code. Default is 1.
     int padding = 1,
+
+    /// [backgroundColor] color of a QR. Defaults to [Colors.white].
     Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1),
+
+    /// [foregroundColor] of a QR. Defaults to [Colors.black].
     Color foregroundColor = const Color.fromRGBO(0, 0, 0, 1),
+
+    /// Choose [errorCorrectionLevel] between low, medium, quartile and high. Defaults to [ErrorCorrectionLevel.medium].
     ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.medium,
 
-    /// Generator automatically sets version from data. But you can also explicitly set qr version [1-40];
+    /// Generator automatically sets version from data. But you can also explicitly set qr version [1 - 40];
     int? qrVersion,
   }) async {
     // ? Use assert statements
