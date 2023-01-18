@@ -1,3 +1,9 @@
+## 0.2.7
+
+- Optimised QR Generation Algorithm
+- Dart support added
+- 'path_provider' dependency removed
+
 ## 0.2.6
 
 - Analyzer issue fix
