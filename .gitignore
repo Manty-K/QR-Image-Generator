@@ -1,5 +1,6 @@
-I have published a package called qr_image_generator.
+# Files and directories created by pub.
+.dart_tool/
+.packages
 
-It can generate and save QR Codes to user specified paths.
-
-https://pub.dev/packages/qr_image_generator
+# Conventional directory for build output.
+build/
