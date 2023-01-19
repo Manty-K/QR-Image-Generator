@@ -7,7 +7,7 @@ import 'package:qr/qr.dart';
 class QRGenerator {
   late String _selectedData;
 
-  late final List<List<bool>> _imageData;
+  late List<List<bool>> _imageData;
 
   late String _outputFilePath;
 
