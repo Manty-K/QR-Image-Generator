@@ -44,7 +44,6 @@ The Image will get saved to the provided `filePath`.
 
 ### TODO
 
-- [ ] Add Filename validations
 - [ ] Add Transperency Support
 - [ ] Write Documentation
 - [ ] Add Image in Qr Code
