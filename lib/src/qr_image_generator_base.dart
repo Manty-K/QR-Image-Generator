@@ -105,7 +105,7 @@ class QRGenerator {
 
     _imageData = _getModules(qrImage);
 
-    _make();
+    await _make();
   }
 
   Future _make() async {
