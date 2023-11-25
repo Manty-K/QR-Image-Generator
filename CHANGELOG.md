@@ -1,3 +1,9 @@
+## 0.2.9
+
+- **FIX** Added missing await to async function ([#1](https://github.com/Manty-K/QR-Image-Generator/commit/290874a91590bd573d6dbd024db9cdb56c3cb0bd))
+
+  Thanks to @MesserschmittX
+
 ## 0.2.8
 
 - Bug Fix
